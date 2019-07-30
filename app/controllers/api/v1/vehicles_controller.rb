@@ -8,6 +8,7 @@ class Api::V1::VehiclesController < ApplicationController
   end
 
   def create
+    # create new Vehicle instance. ID is set by request body
     @vehicle = Vehicle.new(id: params[:id])
     if @vehicle.save
       # respond with empty body

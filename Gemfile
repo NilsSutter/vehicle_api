@@ -13,6 +13,8 @@ gem 'puma', '~> 3.11'
 gem 'geocoder'
 # enable Cross Origin Resource Sharing
 gem 'rack-cors'
+# pry-byebug for debugging
+gem 'pry-byebug'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
