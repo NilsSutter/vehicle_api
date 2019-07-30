@@ -21,12 +21,19 @@ module VehicleApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
-
+    # generate UIDs
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
       g.orm :active_record, foreign_key_type: :uuid
     end
 
+    # CORS settings --> https://github.com/cyu/rack-cors
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'localhost:3000/api/v1'
+        resource '*', headers: :any, methods: [:get, :post, :delete]
+      end
+    end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
