@@ -8,7 +8,7 @@ class Api::V1::VehiclesController < ApplicationController
   end
 
   def create
-    @vehicle = Vehicle.new
+    @vehicle = Vehicle.new(id: params[:id])
     if @vehicle.save
       # respond with empty body
       head :no_content
