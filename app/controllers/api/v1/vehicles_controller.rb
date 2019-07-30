@@ -1,4 +1,12 @@
 class Api::V1::VehiclesController < ApplicationController
+  before_action :find_vehicle, only: [ :show, :destroy ]
+
+  def show
+    # get latest location
+    current_location = @vehicle.locations.order(id: :desc).first
+    render json: current_location
+  end
+
   def create
     @vehicle = Vehicle.new
     if @vehicle.save
@@ -10,11 +18,14 @@ class Api::V1::VehiclesController < ApplicationController
   end
 
   def destroy
-    # find vehicle with id
-    @vehicle = Vehicle.find(params[:id])
-    # destroy vehicle
+    # @vehicle found with callback
     @vehicle.destroy
     # respond with empty body
     head :no_content
+  end
+
+  private
+  def find_vehicle
+    @vehicle = Vehicle.find(params[:id])
   end
 end
