@@ -8,4 +8,6 @@ Rails.application.routes.draw do
       end
     end
   end
+  # Add a real time route
+  mount ActionCable.server => '/cable'
 end

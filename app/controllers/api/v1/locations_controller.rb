@@ -4,8 +4,8 @@ class Api::V1::LocationsController < ApplicationController
     @vehicle = Vehicle.find(params[:vehicle_id])
     @location = Location.new(lat: params[:lat], lng: params[:lng]) #refactor later with strong_params
     @location.vehicle = @vehicle
-    # check if distance < 3.5km
-    distance_to_door2door <= 3.5 ? save_location : @vehicle.locations.delete_all
+    # check if distance < 3.5km and delete all locations, if vehicle is more than 3.5km from the office
+    distance_to_door2door <= 3.5 ? save_location : @vehicle.locations.last.delete
   end
 
   private
@@ -16,6 +16,8 @@ class Api::V1::LocationsController < ApplicationController
 
   def save_location
     if @location.save
+      ActionCable.server.broadcast 'locations',
+        message: "latitude: #{@location.lat}, longitude: #{@location.lng}"
       head :no_content
     else
       render_error
