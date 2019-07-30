@@ -1,4 +1,5 @@
-class Api::V1::LocationsController < ApplicationController
+# class Api::V1::LocationsController < ApplicationController
+class LocationsController < ApplicationController
   def create
     # find vehicle the location belongs to
     @vehicle = Vehicle.find(params[:vehicle_id])

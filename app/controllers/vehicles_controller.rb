@@ -1,4 +1,4 @@
-class Api::V1::VehiclesController < ApplicationController
+class VehiclesController < ApplicationController
   before_action :find_vehicle, only: [ :show, :destroy ]
 
   def show

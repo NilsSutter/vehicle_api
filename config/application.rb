@@ -30,7 +30,7 @@ module VehicleApi
     # CORS settings --> https://github.com/cyu/rack-cors
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:3000/api/v1'
+        origins 'localhost:3000'
         resource '*', headers: :any, methods: [:get, :post, :delete]
       end
     end
