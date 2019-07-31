@@ -24,4 +24,9 @@ class LocationsController < ApplicationController
       render_error
     end
   end
+
+  def render_error
+    render json: { errors: @location.errors.full_messages },
+      status: :unprocessable_entity
+  end
 end

@@ -30,16 +30,16 @@ RSpec.describe 'Vehicles', type: :request do
     end
   end
 
+  # Test suite for POST /vehicles
   describe 'POST /vehicles' do
-    # upon creation, Vehicle-table should contain one more record
+    # upon creation, number of records in Vehicle table should be incremented by 1
     it 'creates a new vehicle' do
-      Vehicle.create(id: "2d931510-d99f-494a-8c67-87feb05e1563")
       size_one = Vehicle.count
       post vehicles_path(id: "2d931510-d99f-494a-8c67-87feb05e1598")
       size_two = Vehicle.count
       expect(size_two).to eq(size_one + 1)
-      # expect{ post(:create, params: {vehicle: params}) }.to change(Vehicle, :count).by(1)
     end
+
     # response status should be 204
     it 'returns status code 204' do
       post vehicles_path(id: "2d931510-d99f-494a-8c67-87feb05e1598")
@@ -47,6 +47,26 @@ RSpec.describe 'Vehicles', type: :request do
     end
   end
 
+  # Test suite for DELETE /vehicles/:id
   describe 'DELETE /vehicles/:id' do
+    # should decrease the number of records in the Vehicle table by 1
+    it 'should delete a vehicle' do
+      # create Vehicle instance
+      vehicle = Vehicle.create(id: "2d931510-d99f-494a-8c67-87feb05e1563")
+      # store number of records in var
+      size_before_delete = Vehicle.count
+      # execute delete request
+      delete "#{vehicles_path}/2d931510-d99f-494a-8c67-87feb05e1563"
+      size_after_delete = Vehicle.count
+      # store number of records in var and compare => size2 should be size1 - 1
+      expect(size_after_delete).to eq(size_before_delete - 1)
+    end
+
+    # response status should be 204
+    it 'returns status code 204' do
+      vehicle = Vehicle.create(id: "2d931510-d99f-494a-8c67-87feb05e1563")
+      delete "#{vehicles_path}/2d931510-d99f-494a-8c67-87feb05e1563"
+      expect(response).to have_http_status(204)
+    end
   end
 end
