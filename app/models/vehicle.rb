@@ -5,4 +5,5 @@ class Vehicle < ApplicationRecord
   # call 'restore(id, :recursive => true)' to restore a record with their associated records
   acts_as_paranoid
   has_many :locations, dependent: :destroy
+  validates :id, presence: true
 end

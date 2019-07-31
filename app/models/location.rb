@@ -3,4 +3,5 @@ class Location < ApplicationRecord
   after_validation :reverse_geocode
   acts_as_paranoid
   belongs_to :vehicle
+  validates :lat, :lng, presence: true
 end
