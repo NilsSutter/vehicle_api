@@ -29,4 +29,9 @@ class VehiclesController < ApplicationController
   def find_vehicle
     @vehicle = Vehicle.find(params[:id])
   end
+
+  def render_error
+    render json: { errors: @vehicle.errors.full_messages },
+      status: :unprocessable_entity
+  end
 end
