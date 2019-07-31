@@ -15,6 +15,8 @@ gem 'geocoder'
 gem 'rack-cors'
 # pry-byebug for debugging
 gem 'pry-byebug'
+# paranoia for soft-delete
+gem "paranoia", "~> 2.2"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
