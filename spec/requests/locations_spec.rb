@@ -24,15 +24,12 @@ RSpec.describe 'Locations', type: :request do
     end
     context 'when coordinates not within door2door-radius' do
       it 'creates no location' do
-        # create 1 vehicle instance
         size_before = Location.count
         vehicle = Vehicle.create(id: "2d931510-d99f-494a-8c67-87feb05e1598")
         # give it one location instance out of radius
         post vehicle_locations_path(vehicle, lat: 60.532, lng: 10.404)
         size_after = Location.count
         expect(size_after).to eq(size_before)
-        # create another location instance within radius via request URI
-        # @vehicle.locations.count (=2) in var
       end
 
       # response status should be 204
