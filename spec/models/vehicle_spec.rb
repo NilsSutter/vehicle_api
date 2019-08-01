@@ -7,6 +7,4 @@ RSpec.describe Vehicle, type: :model do
   it { should have_many(:locations).dependent(:destroy) }
   # validates id to be present
   it { should validate_presence_of(:id) }
-  # validates id to be type of uuid
-
 end

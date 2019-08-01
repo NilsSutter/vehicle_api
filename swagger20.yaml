@@ -1,0 +1,185 @@
+---
+swagger: "2.0"
+info:
+  description: "No description"
+  version: "1.0.0"
+  title: "Vehicle API"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /localhost:3000/vehicles/:id:
+    get:
+      summary: "Get the latest location of one vehicle"
+      description: "See the current location of a vehicle."
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        required: false
+        type: "string"
+        x-example: "/localhost:3000/vehicles/bac5188f-67c6-4965-81dc-4ef49622e280"
+      responses:
+        200:
+          description: "Response contains content as JSON."
+          schema:
+            type: "object"
+            description: "For a registered vehicle, the last location that was send\
+              \ to the server is going to be displayed as JSON."
+          examples:
+            application/json: "{\"id\":\"ed32ff9c-597a-46ce-ab74-1c8fc93d130f\",\n\
+              \ \"lat\":52.543,\n \"lng\":13.415,\n \"created_at\":\"2019-08-01T07:37:39.235Z\"\
+              ,\n \"updated_at\":\"2019-08-01T07:37:39.235Z\",\n \"vehicle_id\":\"\
+              bac5188f-67c6-4965-81dc-4ef49622e280\",\n \"address\":\"Ballhaus Ost,\
+              \ 15, Pappelallee, Helmholtzkiez, Prenzlauer Berg, Pankow,  Berlin,\
+              \ 10437, Germany\",\"deleted_at\":null}"
+          headers:
+            Content-Type:
+              type: "string"
+              description: "the mime type of this content"
+            ETag:
+              type: "string"
+              description: "identifier for a specific version of a resource"
+              x-example: "value: W/\"66374895cfa9235593f393ac981d700f\""
+            Cache-Control:
+              type: "string"
+              description: "server tells client whether this object should be cached"
+              x-example: "value: max-age=0, private, must-revalidate"
+            X-Request-Id:
+              type: "string"
+              x-example: "value: 0e203314-1b4f-4c3e-97cc-ed1289bdfa0d"
+            X-Runtime:
+              type: "string"
+              x-example: "value: 0.013729"
+            Vary:
+              type: "string"
+              x-example: "value: Origin"
+            Transfer-Encoding:
+              type: "string"
+              description: "form of encoding to safely transfer the entity to the\
+                \ user"
+              x-example: "value: chunked"
+    delete:
+      summary: "Delete (de-register) a vehicle"
+      description: "Delete a vehicle from the Vehicle table. All locations that belong\
+        \ to that vehicle will be deleted with it"
+      parameters:
+      - name: "id"
+        in: "query"
+        required: false
+        type: "string"
+        description: "give the id in the URI to determine which vehicle should be\
+          \ deleted"
+        x-example: "http://localhost:3000/vehicles/bac5188f-67c6-4965-81dc-4ef49622e280"
+      responses:
+        204:
+          description: "The response contains no content"
+          headers:
+            Cache-Control:
+              type: "string"
+              description: "server tells client whether object shall be cached"
+              x-example: "value: no-cache"
+            X-Request-Id:
+              type: "string"
+              x-example: "value: 76231adc-d329-45dd-978d-d7e579ec11a4"
+            X-Runtime:
+              type: "string"
+              x-example: "value: 0.026821"
+            Vary:
+              type: "string"
+              description: "Tells downstream proxies how to match future request headers\
+                \ to determine whether a cached response can be used"
+  /localhost:3000/vehicles:
+    post:
+      summary: "Create (register) new vehicles"
+      description: "To create a new vehicle, it is mandatory to provide an UUID."
+      consumes: []
+      parameters:
+      - name: "id"
+        in: "query"
+        required: true
+        type: "string"
+        description: "provide the request with an uuid to create a new vehicle"
+        x-example: "http://localhost:3000/vehicles?id=bac5188f-67c6-4965-81dc-4ef49622e280"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "string"
+        x-examples:
+          application/json: "{ id: bac5188f-67c6-4965-81dc-4ef49622e280 }"
+      responses:
+        204:
+          description: "The response-body will be empty. A new record will just be\
+            \ saved to the Vehicle table."
+          headers:
+            Cache-Control:
+              type: "string"
+              description: "Server tells client whether this object should be cached"
+              x-example: "value: no-cache"
+            X-Request-Id:
+              type: "string"
+              description: "custom"
+              x-example: "value: 00868c25-5098-41f9-b909-18f1804de142"
+            X-Runtime:
+              type: "string"
+              description: "custom"
+              x-example: "value: 0.011114"
+            Vary:
+              type: "string"
+              description: "Tells downstream proxies how to match future request headers\
+                \ to determine whether a cached response can be used."
+              x-example: "value: Origin"
+  /localhost:3000/vehicles/:vehicle_id/locations:
+    post:
+      summary: "Create a new location for an already registered vehicle"
+      description: "Update the vehicles location"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "vehicle_id"
+        in: "query"
+        required: true
+        type: "string"
+        description: "Enter the vehicles UUID to create a new location for this vehicle"
+        x-example: "http://localhost:3000/vehicles/bac5188f-67c6-4965-81dc-4ef49622e280/locations?lat=52.543&lng=13.415"
+      - name: "lat"
+        in: "query"
+        required: true
+        type: "string"
+        description: "latitude"
+        x-example: "http://localhost:3000/vehicles/bac5188f-67c6-4965-81dc-4ef49622e280/locations?lat=52.543&lng=13.415"
+      - name: "lng"
+        in: "query"
+        required: true
+        type: "string"
+        description: "longitude"
+        x-example: "http://localhost:3000/vehicles/bac5188f-67c6-4965-81dc-4ef49622e280/locations?lat=52.543&lng=13.415"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          description: "`{\"lat\"=>\"52.543\", \"lng\"=>\"13.415\", \"vehicle_id\"\
+            =>\"bac5188f-67c6-4965-81dc-4ef49622e280\"}`"
+      responses:
+        204:
+          description: "Response will contain no content"
+          headers:
+            Cache-Control:
+              type: "string"
+              description: "server tells client whether object shall be cached"
+              x-example: "value: no-cache"
+            X-Request-Id:
+              type: "string"
+              x-example: "204a9a8b-f2ff-4084-b623-e1a31aae5006"
+            X-Runtime:
+              type: "string"
+              x-example: "value: 0.427482"
+            Vary:
+              type: "string"
+              description: "tells downstream proxies how to match future request headers\
+                \ to decide whether a cached response can be used"
+              x-example: "Origin"
