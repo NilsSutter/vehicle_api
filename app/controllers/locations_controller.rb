@@ -3,7 +3,7 @@ class LocationsController < ApplicationController
   def create
     # find vehicle the location belongs to
     @vehicle = Vehicle.find(params[:vehicle_id])
-    @location = Location.new(lat: params[:lat], lng: params[:lng]) #refactor later with strong_params
+    @location = Location.new(lat: params[:lat], lng: params[:lng])
     @location.vehicle = @vehicle
     # check if distance < 3.5km and delete location, if vehicle is more than 3.5km from the office
     distance_to_door2door <= 3.5 ? save_location : @location.delete
