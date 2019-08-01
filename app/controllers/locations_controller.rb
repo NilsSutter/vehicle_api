@@ -18,7 +18,7 @@ class LocationsController < ApplicationController
   def save_location
     if @location.save
       # transmit data to the location channel
-      ActionCable.server.broadcast 'location',
+      ActionCable.server.broadcast 'locations_channel',
         message: "latitude: #{@location.lat}, longitude: #{@location.lng}"
         # response body should be empty and status should be 204
       head :no_content

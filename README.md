@@ -28,16 +28,29 @@ To calculate the distances, the 'geocoder-gem* has been used. Please refer to *h
 
 To display the most current location of a given vehicle, a **GET** request can be made through **http://localhost:3000/vehicles/:id**
 For example, the following GET request **http://localhost:3000/vehicles/bac5188f-67c6-4965-81dc-4ef49622e280** would return the following response body with a response status of 200:
-```
-"{
-  "id": "ed32ff9c-597a-46ce-ab74-1c8fc93d130f",
-  "lat": 52.543,
-  "lng": 13.415,
-  "created_at": "2019-08-01T07:37:39.235Z",
-  "updated_at": "2019-08-01T07:37:39.235Z",
-  "vehicle_id": bac5188f-67c6-4965-81dc-4ef49622e280",
-  "address": "Ballhaus Ost, 15, Pappelallee, Helmholtzkiez, Prenzlauer Berg, Pankow,  Berlin, 10437, Germany",
-  "deleted_at":null
-}"
-```
+  ```
+  "{
+    "id": "ed32ff9c-597a-46ce-ab74-1c8fc93d130f",
+    "lat": 52.543,
+    "lng": 13.415,
+    "created_at": "2019-08-01T07:37:39.235Z",
+    "updated_at": "2019-08-01T07:37:39.235Z",
+    "vehicle_id": bac5188f-67c6-4965-81dc-4ef49622e280",
+    "address": "Ballhaus Ost, 15, Pappelallee, Helmholtzkiez, Prenzlauer Berg, Pankow,  Berlin, 10437, Germany",
+    "deleted_at":null
+  }"
+  ```
 
+However, if you would like to connect your frontend (e.g. a seperate React-Application) to the API, you can subscripe to the *locations_channel*. A connection will be setup through *ActionCable* and locationupdates will be broadcasted as soon as a new locationrecord is saved to the database.
+Save the following two endpoints as constants:
+  ```
+  const API_ROOT = 'http://localhost:3000';
+  const API_WS_ROOT = 'ws://localhost:3000/cable';
+  ```
+Since websockets do not run on the HTTP, but on their own protocol based on TCP, we do have a seperate root which is used for the frontend to establish the connection through websockets.
+
+If you use a react-frontend, run in your terminal *yarn add react-actioncable-provider* (or npm instead of yarn) to install this package. It provides an ActionCable context provider and consumer that allows your application to subscripe to channels (https://www.npmjs.com/package/react-actioncable-provider).
+For the complete setup, please follow the steps explained on its webpage.
+Furthermore, make sure that your react-application **does not** run on the same local server as the rails api does (localhost:3000).
+
+Also, please feel free to make suggestions. I am still learning so I would be very happy for any feedback that I can get.

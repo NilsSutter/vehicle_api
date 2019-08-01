@@ -1,5 +1,5 @@
 class LocationsChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "location_#{params[:vehicle_id]}"
+    stream_from 'locations_channel'
   end
 end
