@@ -14,9 +14,9 @@ For this DELETE-Request, no content will be contained in the response body (stat
 
 Deleting the vehicles would also result in deleting all the corresponding locations. Since this is an undesirable turnout, soft-delete was implemented for both models, vehicles and locations.
 Upon delete requests, records will just be hidden but are still available for future analysis purposes
-  # call 'really_destroy!' to delete a record from the database
-  # call 'only_deleted' to get access to all soft-deleted records
-  # call 'restore(id, :recursive => true)' to restore a record with their associated records
+  - call 'really_destroy!' to delete a record from the database
+  - call 'only_deleted' to get access to all soft-deleted records
+  - call 'restore(id, :recursive => true)' to restore a record with their associated records
 
 This feature was implemented by using the *Paranoid-Gem*. For more information on how to use it please refer to: *https://github.com/rubysherpas/paranoia*
 
@@ -41,7 +41,7 @@ For example, the following GET request **http://localhost:3000/vehicles/bac5188f
   }"
   ```
 
-However, if you would like to connect your frontend (e.g. a seperate React-Application) to the API, you can subscripe to the *locations_channel*. A connection will be setup through *ActionCable* and locationupdates will be broadcasted as soon as a new locationrecord is saved to the database.
+However, if you would like to connect your frontend (e.g. a separate React-Application) to the API, you can subscripe to the *locations_channel*. A connection will be setup through *ActionCable* and locationupdates will be broadcasted as soon as a new locationrecord is saved to the database.
 Save the following two endpoints as constants:
   ```
   const API_ROOT = 'http://localhost:3000';
