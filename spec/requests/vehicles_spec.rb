@@ -3,30 +3,35 @@ require 'rails_helper'
 RSpec.describe 'Vehicles', type: :request do
   # Test suite for GET /vehicles/:id
   describe 'GET /vehicles/:id' do
+    let!(:vehicle) {Vehicle.create(id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")}
+    let!(:location) {Location.create(lat: 52.532, lng: 13.404, vehicle_id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")}
     it 'returns status code 200' do
-      vehicle = Vehicle.create(id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")
       get vehicle_path(vehicle)
       expect(response).to have_http_status(200)
     end
 
-    it 'returns the updated location as Hash' do
-      vehicle = Vehicle.create(id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")
-      location = Location.create(lat: 52.532, lng: 13.404, vehicle_id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")
+    it 'returns the data as JSON-Object' do
       get vehicle_path(vehicle)
       result = JSON(response.body)
+      #binding.pry
       expect(result).to be_a_kind_of(Hash)
     end
 
     it 'response body should contain one location-record' do
-      vehicle = Vehicle.create(id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")
-      location = Location.create(lat: 52.532, lng: 13.404, vehicle_id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")
-      location = Location.create(lat: 52.5332, lng: 13.4014, vehicle_id: "62b51cfe-0f5a-4f00-bb6f-215bb05d9520")
+      Location.create(lat: 52.5332, lng: 13.4014, vehicle: vehicle)
       get vehicle_path(vehicle)
       result = JSON(response.body)
       # push location record into array
       arr = []
       arr << result
       expect(arr.size).to eq(1)
+    end
+
+    it 'should contain a latitude and longitude' do
+      get vehicle_path(vehicle)
+      result = JSON(response.body)
+      expect(result["lat"]).to eq(location.lat)
+      expect(result["lng"]).to eq(location.lng)
     end
   end
 
